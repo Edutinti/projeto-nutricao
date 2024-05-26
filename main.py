@@ -27,8 +27,17 @@ def cadastro_alimento():
         prot = request.form['prot']
         fat = request.form['fat']
 
+        # Converte os valores para números
+        quantidade = float(quantidade)
+        carb = float(carb)
+        prot = float(prot)
+        fat = float(fat)
+
+        cal_total = (carb*4) + (prot*4) + (fat*9)
+
         new_food = foods.alimentos(quantidade, nome, carb, prot, fat)
-        inserir = new_food.inserirAlimento()
+        inserir = new_food.inserirAlimento(cal_total)
+        
 
     return render_template('cadastroAlimento.html')
 

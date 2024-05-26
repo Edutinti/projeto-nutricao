@@ -15,14 +15,25 @@ class alimentos():
             """CREATE TABLE IF NOT EXISTS alimentos (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 gramas INTEGER NOT NULL,
+                calorias REAL NOT NULL,
                 nome TEXT NOT NULL,
                 carboidratos REAL NOT NULL,
                 proteinas REAL NOT NULL, gorduras REAL NOT NULL )""")
         conn.commit()
 
-    def inserirAlimento(self,):
+    def inserirAlimento(self, calorias):
         conn = sqlite3.connect('dbAlimentos.db')
         cursor = conn.cursor()
-        cursor.execute("INSERT INTO alimentos (gramas, nome, carboidratos, proteinas, gorduras) VALUES (?, ?, ?, ?, ?)",
-                       (self.gramas, self.nome, self.carb, self.prot, self.fat))
+        cursor.execute("INSERT INTO alimentos (gramas, calorias, nome, carboidratos, proteinas, gorduras) VALUES (?, ?, ?, ?, ?, ?)",
+                       (self.gramas, calorias, self.nome, self.carb, self.prot, self.fat))
         conn.commit()
+
+    def calcularCaloria(self):
+        dict_cal = {}
+        cal_total = 0
+
+
+
+
+
+    
