@@ -1,4 +1,5 @@
 import sqlite3
+from flask import jsonify
 
 
 class alimentos():
@@ -20,6 +21,7 @@ class alimentos():
                 carboidratos REAL NOT NULL,
                 proteinas REAL NOT NULL, gorduras REAL NOT NULL )""")
         conn.commit()
+        conn.close()
 
     def inserirAlimento(self, calorias):
         conn = sqlite3.connect('dbAlimentos.db')
@@ -27,12 +29,16 @@ class alimentos():
         cursor.execute("INSERT INTO alimentos (gramas, calorias, nome, carboidratos, proteinas, gorduras) VALUES (?, ?, ?, ?, ?, ?)",
                        (self.gramas, calorias, self.nome, self.carb, self.prot, self.fat))
         conn.commit()
+        conn.close()
 
-    def calcularCaloria(self):
-        dict_cal = {}
-        cal_total = 0
-
-
+    # def listarAlimento(self):
+    #     conn = sqlite3.connect('dbAlimentos.db')
+    #     cursor = conn.cursor()
+    #     cursor.execute("SELECT nome, calorias, gramas FROM alimentos")
+    #     foods = cursor.fetchall()
+    #     conn.close()
+        
+        
 
 
 
