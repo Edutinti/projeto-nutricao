@@ -4,24 +4,211 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <link rel="stylesheet" href="static/css/style.css">
-    <title>Calculo de Dieta</title>
+    <title>Plano de Dieta</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 8px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        .food-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .food-list li {
+            padding: 8px;
+            cursor: pointer;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .food-list li:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
 </head>
 
 <body>
-    <div>
-        <h1>Calculo de Dieta</h1>
-        <form action="/calcular" >
-            <label for="calorias-dieta">Quantas calorias na dieta?:</label>
-            <input type="number" id="cal" name="cal" step="0" required><br><br>
-            <button type="submit">Submit</button>
+    <div class="container">
+        <h1 class="mt-4">Plano de Dieta</h1>
+        <button type="button" class="btn btn-success mb-4" onclick="addNewMeal()">+ Adicionar nova refeição</button>
 
-        </form>
+        <ul class="nav nav-tabs" id="mealTabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="breakfast-tab" data-toggle="tab" href="#breakfast" role="tab"
+                    aria-controls="breakfast" aria-selected="true">Café da manhã</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="lunch-tab" data-toggle="tab" href="#lunch" role="tab" aria-controls="lunch"
+                    aria-selected="false">Almoço</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="snack-tab" data-toggle="tab" href="#snack" role="tab" aria-controls="snack"
+                    aria-selected="false">Lanche</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="dinner-tab" data-toggle="tab" href="#dinner" role="tab" aria-controls="dinner"
+                    aria-selected="false">Jantar</a>
+            </li>
+            <!-- Adicionar mais refeições conforme necessário -->
+        </ul>
+
+        <div class="tab-content" id="mealTabsContent">
+            <div class="tab-pane fade show active" id="breakfast" role="tabpanel" aria-labelledby="breakfast-tab">
+                <h2 class="mt-4">Café da manhã</h2>
+                <form id="breakfastForm">
+                    <div class="form-group">
+                        <label for="breakfastFood">Selecione um alimento:</label>
+                        <select class="form-control" id="breakfastFood">
+                            {% for id, alimento in listar_alimentos.items() %}
+                            <option value="{{ id }}">{{ alimento.nome }} - {{ alimento.gramas }}g - {{ alimento.calorias
+                                }} calorias</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="breakfastQuantity">Quantidade (gramas):</label>
+                        <input type="number" class="form-control" id="breakfastQuantity" min="1" step="1">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Adicionar</button>
+                </form>
+                <h3 class="mt-4">Itens Selecionados</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Alimento</th>
+                            <th>Gramas</th>
+                            <th>Proteínas</th>
+                            <th>Carboidratos</th>
+                            <th>Gorduras</th>
+                            <th>Calorias</th>
+                        </tr>
+                    </thead>
+                    <tbody id="breakfastItems">
+                        <!-- Itens selecionados carregados pelo backend -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="tab-pane fade" id="lunch" role="tabpanel" aria-labelledby="lunch-tab">
+                <h2 class="mt-4">Almoço</h2>
+                <form id="lunchForm">
+                    <div class="form-group">
+                        <label for="lunchFood">Selecione um alimento:</label>
+                        <select class="form-control" id="lunchFood">
+                            <!-- Opções de alimentos carregadas pelo backend -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="lunchQuantity">Quantidade (gramas):</label>
+                        <input type="number" class="form-control" id="lunchQuantity" min="1" step="1">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Adicionar</button>
+                </form>
+                <h3 class="mt-4">Itens Selecionados</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Alimento</th>
+                            <th>Gramas</th>
+                            <th>Proteínas</th>
+                            <th>Carboidratos</th>
+                            <th>Gorduras</th>
+                            <th>Calorias</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lunchItems">
+                        <!-- Itens selecionados carregados pelo backend -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="tab-pane fade" id="snack" role="tabpanel" aria-labelledby="snack-tab">
+                <h2 class="mt-4">Lanche</h2>
+                <form id="snackForm">
+                    <div class="form-group">
+                        <label for="snackFood">Selecione um alimento:</label>
+                        <select class="form-control" id="snackFood">
+                            <!-- Opções de alimentos carregadas pelo backend -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="snackQuantity">Quantidade (gramas):</label>
+                        <input type="number" class="form-control" id="snackQuantity" min="1" step="1">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Adicionar</button>
+                </form>
+                <h3 class="mt-4">Itens Selecionados</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Alimento</th>
+                            <th>Gramas</th>
+                            <th>Proteínas</th>
+                            <th>Carboidratos</th>
+                            <th>Gorduras</th>
+                            <th>Calorias</th>
+                        </tr>
+                    </thead>
+                    <tbody id="snackItems">
+                        <!-- Itens selecionados carregados pelo backend -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="tab-pane fade" id="dinner" role="tabpanel" aria-labelledby="dinner-tab">
+                <h2 class="mt-4">Jantar</h2>
+                <form id="dinnerForm">
+                    <div class="form-group">
+                        <label for="dinnerFood">Selecione um alimento:</label>
+                        <select class="form-control" id="dinnerFood">
+                            <!-- Opções de alimentos carregadas pelo backend -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="dinnerQuantity">Quantidade (gramas):</label>
+                        <input type="number" class="form-control" id="dinnerQuantity" min="1" step="1">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Adicionar</button>
+                </form>
+                <h3 class="mt-4">Itens Selecionados</h3>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Alimento</th>
+                            <th>Gramas</th>
+                            <th>Proteínas</th>
+                            <th>Carboidratos</th>
+                            <th>Gorduras</th>
+                            <th>Calorias</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dinnerItems">
+                        <!-- Itens selecionados carregados pelo backend -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-    <br>
-    <a class="voltar" href="/">Voltar</a>
+
+    <!-- Bootstrap JS and dependencies (Popper.js and jQuery) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
 </body>
 
 </html>

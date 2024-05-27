@@ -37,15 +37,15 @@ def cadastro_alimento():
 
         new_food = foods.alimentos(quantidade, nome, carb, prot, fat)
         inserir = new_food.inserirAlimento(cal_total)
-        
 
     return render_template('cadastroAlimento.html')
 
 
 @app.route('/calcular')
 def calcular():
+    listar = foods.alimentos.listarAlimento()
 
-    return render_template('calcular.html')
+    return render_template('calcular.html', listar_alimentos=listar)
 
 
 app.run(debug=True)

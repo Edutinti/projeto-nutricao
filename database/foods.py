@@ -19,7 +19,8 @@ class alimentos():
                 calorias REAL NOT NULL,
                 nome TEXT NOT NULL,
                 carboidratos REAL NOT NULL,
-                proteinas REAL NOT NULL, gorduras REAL NOT NULL )""")
+                proteinas REAL NOT NULL, 
+                gorduras REAL NOT NULL )""")
         conn.commit()
         conn.close()
 
@@ -31,15 +32,22 @@ class alimentos():
         conn.commit()
         conn.close()
 
-    # def listarAlimento(self):
-    #     conn = sqlite3.connect('dbAlimentos.db')
-    #     cursor = conn.cursor()
-    #     cursor.execute("SELECT nome, calorias, gramas FROM alimentos")
-    #     foods = cursor.fetchall()
-    #     conn.close()
-        
-        
+    def listarAlimento():
+        conn = sqlite3.connect('dbAlimentos.db')
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM alimentos")
+        foods = cursor.fetchall()
+        conn.close()
 
+        alimentos_dict = {}
+        for food in foods:
+            alimentos_info = {
+                "nome": food[3],
+                "gramas": food[1],
+                "carbs": food[4],
+                "proteins": food[5],
+                "fats": food[6]
+            }
+            alimentos_dict[food[0]] = alimentos_info
 
-
-    
+        return alimentos_dict
