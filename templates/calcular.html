@@ -73,14 +73,14 @@
                         <label for="breakfastFood">Selecione um alimento:</label>
                         <select class="form-control" id="breakfastFood">
                             {% for id, alimento in listar_alimentos.items() %}
-                            <option value="{{ id }}">{{ alimento.nome }} - {{ alimento.gramas }}g - {{ alimento.calorias
-                                }} calorias</option>
+                            <option value="{{ id }}">{{ alimento.nome }}</option>
                             {% endfor %}
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="breakfastQuantity">Quantidade (gramas):</label>
-                        <input type="number" class="form-control" id="breakfastQuantity" min="1" step="1">
+                        <input type="number" class="form-control" id="breakfastQuantity" name="breakfastQuantity"
+                            min="1" step="1">
                     </div>
                     <button type="submit" class="btn btn-primary">Adicionar</button>
                 </form>
@@ -98,6 +98,13 @@
                     </thead>
                     <tbody id="breakfastItems">
                         <!-- Itens selecionados carregados pelo backend -->
+                        <tr>
+                            <td>teste</td>
+                        </tr>
+
+                        <tr>
+                            <td>teste2</td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -108,12 +115,15 @@
                     <div class="form-group">
                         <label for="lunchFood">Selecione um alimento:</label>
                         <select class="form-control" id="lunchFood">
-                            <!-- Opções de alimentos carregadas pelo backend -->
+                            {% for id, alimento in listar_alimentos.items() %}
+                            <option value="{{ id }}">{{ alimento.nome }}</option>
+                            {% endfor %}
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="lunchQuantity">Quantidade (gramas):</label>
-                        <input type="number" class="form-control" id="lunchQuantity" min="1" step="1">
+                        <input type="number" class="form-control" id="lunchQuantity" name="lunchQuantity" min="1"
+                            step="1">
                     </div>
                     <button type="submit" class="btn btn-primary">Adicionar</button>
                 </form>
@@ -141,12 +151,15 @@
                     <div class="form-group">
                         <label for="snackFood">Selecione um alimento:</label>
                         <select class="form-control" id="snackFood">
-                            <!-- Opções de alimentos carregadas pelo backend -->
+                            {% for id, alimento in listar_alimentos.items() %}
+                            <option value="{{ id }}">{{ alimento.nome }}</option>
+                            {% endfor %}
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="snackQuantity">Quantidade (gramas):</label>
-                        <input type="number" class="form-control" id="snackQuantity" min="1" step="1">
+                        <input type="number" class="form-control" id="snackQuantity" name="snackQuantity" min="1"
+                            step="1">
                     </div>
                     <button type="submit" class="btn btn-primary">Adicionar</button>
                 </form>
@@ -174,12 +187,16 @@
                     <div class="form-group">
                         <label for="dinnerFood">Selecione um alimento:</label>
                         <select class="form-control" id="dinnerFood">
-                            <!-- Opções de alimentos carregadas pelo backend -->
+                            {% for id, alimento in listar_alimentos.items() %}
+                            <option value="{{ id }}">{{ alimento.nome }}
+                            </option>
+                            {% endfor %}
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="dinnerQuantity">Quantidade (gramas):</label>
-                        <input type="number" class="form-control" id="dinnerQuantity" min="1" step="1">
+                        <input type="number" class="form-control" id="dinnerQuantity" name="dinnerQuantity" min="1"
+                            step="1">
                     </div>
                     <button type="submit" class="btn btn-primary">Adicionar</button>
                 </form>

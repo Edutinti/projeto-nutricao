@@ -41,9 +41,14 @@ def cadastro_alimento():
     return render_template('cadastroAlimento.html')
 
 
-@app.route('/calcular')
+@app.route('/calcular', methods=['GET', 'POST'])
 def calcular():
     listar = foods.alimentos.listarAlimento()
+    # if request.method == 'POST':
+    #     gramas_cafe = request.form['breakfastQuantity']
+    #     gramas_almoco = request.form['lunchQuantity']
+    #     gramas_lanche = request.form['snackQuantity']
+    #     gramas_jantar = request.form['dinnerQuantity']
 
     return render_template('calcular.html', listar_alimentos=listar)
 
